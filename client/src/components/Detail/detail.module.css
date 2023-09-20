@@ -1,0 +1,16 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    color: white;
+    background-color: #00000080;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    width: 40%;
+    padding: 5%;
+    margin: 25px auto;
+    box-shadow: 10px 5px rgb(0,0,0,0.70);
+    justify-content: space-between;
+}
+.imgs{
+    border-radius: 50%;
+}

@@ -6,7 +6,7 @@ const getAllTeams = async () => {
     const driversApi = (await axios.get("http://localhost:5000/drivers")).data
 
     driversApi.forEach(driver => {
-        if(driver.team){
+        if(driver.teams){
                     //formatea los nombres de los teams
             let allTeams = driver.teams.split(/\s*,\s*/);
             //encuentra o crea el team en la base de datos

@@ -12,29 +12,52 @@ const formatArray = (array) =>
             imagen: elemento.image,
             nacionalidad: elemento.nationality,
             fechaNac: elemento.dob,
+            teams:elemento.teams,
             created: false
 
         }
 
     })
 
-    const createDriver = async  (nombre, apellido,descripcion,imagen,nacionalidad,fechaNac,teams) => {
-        const resultado = await Driver.create({nombre, apellido, descripcion, imagen, nacionalidad, fechaNac})
-    
-    //agregar teams a drivers-teams
-    await resultado.addTeams(teams)
-    
-    const driverNew = await Driver.findByPk(resultado.id, {
-        include: {
-            model: Team,
-            attributes:["nombres"],
-            through:{
-                attributes: []
-            }
+    const createDriver = async (nombre, apellido, nacionalidad, imagen, descripcion, fechaNac, Teams) => {
+      try {
+        // Crear los equipos y almacenarlos en un array
+        const teamInstances = [];
+        for (const teamData of Teams) {
+         
+          for (const driverTeam of teamData.nombre.split(/\s*,\s*/)) {
+            const [team, created] = await Team.findOrCreate({
+              where: { nombre: driverTeam }
+            });
+            
+            teamInstances.push(team);
+          }
         }
-    }) 
-    return driverNew
-}
+      
+        // Crear el controlador y asociar los equipos
+        const resultado = await Driver.create({ nombre, apellido, nacionalidad, imagen, descripcion, fechaNac });
+        await resultado.addTeams(teamInstances)
+      //  console.log(teamInstances)
+       //console.log(resultado)
+        await resultado.save();
+        // Recuperar el controlador con los equipos asociados
+        const driverNew = await Driver.findByPk(resultado.id, {
+          include: {
+            model: Team,
+            attributes: ["nombre"],
+            through: {
+              attributes: []
+            }
+          }
+        });
+
+        await resultado.save();
+        return driverNew;
+      } catch (error) {
+        console.error("Error en createDriver:", error);
+        throw error;
+      }
+    };
 
 //Get Driver BY ID
 
@@ -73,11 +96,19 @@ const driver =
     //Get todos los drivers
 
     const getAllDrivers = async () => {
-        const driversDatabase = await Driver.findAll();
+        const driversDatabase = await Driver.findAll({
+          include: {
+            model: Team,
+            attributes: ["nombre"],
+            through: {
+              attributes: []
+            }
+          }
+        });
 
         const driverApiOriginal = (await axios.get("http://localhost:5000/drivers")).data 
         const driversApi = formatArray(driverApiOriginal)
-    
+        
         return [...driversApi, ...driversDatabase]
     }
 
@@ -98,7 +129,6 @@ const driver =
                 driver.nombre.toLowerCase().includes(nombre.toLowerCase())
               );
           })
-          //console.log(driversApi)
           // Combinar resultados y limitar a 15
           const allDriversNames = databaseFiltrada.concat(apiFiltrada).slice(0, 15);
           return allDriversNames;
