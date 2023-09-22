@@ -61,41 +61,55 @@ const formatArray = (array) =>
 
 //Get Driver BY ID
 
-const getDriverById = async (id,source) => {
-//el parametro source define donde buscara los drivers
-const driver =
-    source === 'api'?
-        await (await axios.get(`http://localhost:5000/drivers/${id}`)).data
-    :
-        await Driver.findByPk(id,{include:{
-            model: Team,
-            attributes:["nombre"],
-            through:{
-                attributes: []
-            }
-        },
-    });
-        if(source === 'bdd'){
-            return driver
-        }else{
-            return {
-                id: driver.id,
-                nombre: driver.name.forename,
-                apellido: driver.name.surname,
-                descripcion: driver.description,
-                nacionalidad: driver.nationality,
-                fechaNac: driver.dob,
-                imagen: driver.image,
-                teams: driver.teams,
-                created: false
-        
-            }
-        }
-    }   
+const getDriverById = async (id, source) => {
+  // El parámetro source define dónde buscará los drivers
+  try {
+    const driver =
+      source === 'api'
+        ? await (await axios.get(`http://localhost:5000/drivers/${id}`)).data
+        : await Driver.findByPk(id, {
+            include: {
+              model: Team,
+              attributes: ["nombre"],
+              through: {
+                attributes: [],
+              },
+            },
+          });
 
+    if (source === 'bdd') {
+      // Format the "Teams" field for database source
+      const formattedTeams = driver.Teams.map((team) => team.nombre).join(', ');
+
+      return {
+        ...driver.toJSON(),
+        teams: formattedTeams,
+      };
+    } else {
+      // Transform the data for API source
+      return {
+        id: driver.id,
+        nombre: driver.name.forename,
+        apellido: driver.name.surname,
+        descripcion: driver.description,
+        nacionalidad: driver.nationality,
+        fechaNac: driver.dob,
+        imagen: driver.image,
+        teams: driver.teams,
+        created: false,
+      };
+    }
+  } catch (error) {
+    // Manejar errores aquí
+    console.error(`Error obteniendo conductor por ID ${id}:`, error);
+    throw error; // Puedes decidir si deseas propagar el error o manejarlo de otra manera
+  }
+};
     //Get todos los drivers
 
     const getAllDrivers = async () => {
+      try {
+        // Fetch data from the database
         const driversDatabase = await Driver.findAll({
           include: {
             model: Team,
@@ -105,38 +119,69 @@ const driver =
             }
           }
         });
-
-        const driverApiOriginal = (await axios.get("http://localhost:5000/drivers")).data 
-        const driversApi = formatArray(driverApiOriginal)
-        
-        return [...driversApi, ...driversDatabase]
-    }
+    
+        // Transform the database data
+        const formattedDatabaseData = driversDatabase.map(driver => ({
+          ...driver.toJSON(), // Convert the Sequelize object to JSON
+          Teams: driver.Teams.map(team => team.nombre).join(', ') // Transform the "Teams" field
+        }));
+    
+        // Fetch data from the API
+        const driverApiOriginal = (await axios.get("http://localhost:5000/drivers")).data;
+        const driversApi = formatArray(driverApiOriginal);
+          console.log(formattedDatabaseData)
+        // Transform the API data
+        // Merge both sets of data
+        return [...driversApi, ...formattedDatabaseData];
+      } catch (error) {
+        console.error('Error in getAllDrivers:', error);
+        throw error; // Optionally rethrow the error for handling in the caller
+      }
+    };
 
     //buscar por nombre
 
     const getDriversByName = async (nombre) => {
         try {
           // Búsqueda en la base de datos local
-          const driversDatabase = await Driver.findAll();
-          const databaseFiltrada = driversDatabase.filter((driver) => driver.nombre.toLowerCase().includes(nombre.toLowerCase()));
-      
-          // Búsqueda en la API externa
-          const driverApiOriginal = (await axios.get("http://localhost:5000/drivers")).data;
-          const driversApi = formatArray(driverApiOriginal);
-          const apiFiltrada = driversApi.filter((driver) => {
-            return driver.nombre !== undefined && (
-                driver.apellido.toLowerCase().includes(nombre.toLowerCase()) ||
-                driver.nombre.toLowerCase().includes(nombre.toLowerCase())
-              );
-          })
-          // Combinar resultados y limitar a 15
-          const allDriversNames = databaseFiltrada.concat(apiFiltrada).slice(0, 15);
-          return allDriversNames;
-        } catch (error) {
-          // Manejar errores aquí
-          console.error("Error en la búsqueda de conductores:", error);
-          throw error; // Puedes decidir si deseas propagar el error o manejarlo de otra manera
-        }
-      };
+          const driversDatabase = await Driver.findAll({
+            include: {
+              model: Team,
+              attributes: ["nombre"],
+              through: {
+                attributes: []
+              }
+            }
+          });
+          const databaseFiltrada = driversDatabase.filter((driver) =>
+      driver.nombre.toLowerCase().includes(nombre.toLowerCase())
+    );
+
+    // Format the "Teams" field in the database results
+    const formattedDatabaseFiltrada = databaseFiltrada.map((driver) => ({
+      ...driver.toJSON(),
+      Teams: driver.Teams.map((team) => team.nombre).join(', '),
+    }));
+
+    // Búsqueda en la API externa
+    const driverApiOriginal = (await axios.get("http://localhost:5000/drivers")).data;
+    const driversApi = formatArray(driverApiOriginal);
+    const apiFiltrada = driversApi.filter((driver) => {
+      return driver.nombre !== undefined && (
+          driver.apellido.toLowerCase().includes(nombre.toLowerCase()) ||
+          driver.nombre.toLowerCase().includes(nombre.toLowerCase())
+        );
+    })
+
+    // Combinar resultados y limitar a 15
+    const allDrivers = [...formattedDatabaseFiltrada, ...apiFiltrada].slice(0, 15);
+
+    return allDrivers;
+  } catch (error) {
+    // Manejar errores aquí
+    console.error("Error en la búsqueda de conductores:", error);
+    throw error; // Puedes decidir si deseas propagar el error o manejarlo de otra manera
+  }
+};
 
     module.exports = { createDriver, getDriverById, getAllDrivers, getDriversByName };

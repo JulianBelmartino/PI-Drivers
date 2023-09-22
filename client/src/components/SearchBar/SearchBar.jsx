@@ -15,7 +15,6 @@ export default function SearchBar() {
    const handleSearch = () => {
       // Dispatch the getDriverByName action with the current 'name' value
       dispatch(getDriverByName(name));
-      console.log(name)
    }
 
    return (
