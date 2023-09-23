@@ -1,9 +1,9 @@
 import { useState } from "react";
 import styles from './SearchBar.module.css'
-import {orderCards,getDriverByName} from '../../redux/action'
+import {getDriverByName} from '../../redux/action'
 import {useDispatch, useSelector} from 'react-redux'
 
-export default function SearchBar() {
+export default function SearchBar({ onSearch }) {
    const [name, setName] = useState('');
    const dispatch = useDispatch()
    
@@ -12,10 +12,8 @@ export default function SearchBar() {
    }
 
    const handleSearch = (event) => {
-      const order = event.target.value
       dispatch(getDriverByName(name));
-      dispatch(orderCards(order))
-      
+      console.log('click') 
    }
 
    return (

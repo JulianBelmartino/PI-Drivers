@@ -38,6 +38,23 @@ export default function filterCards(){
      return(
 
         <div >
+                    <div>
+           <select onChange={handleFilterSource} >
+              <option value="All">Por origen</option>
+              <option value="bdd">Base de datos</option>
+              <option value="api">API</option>
+          </select>
+          <select onChange={handleFilterTeams}>
+           <option>Escuderias</option>
+            {teams.map((team) => (
+            <option key={team.id} value={team.name}>
+             {team.nombre}
+            </option>
+            
+         ))}
+              
+          </select>
+          </div>
         <select onChange={handleOrder} >
               <option value="Id">Por ID</option>
               <option value="A">Ascendente</option>
@@ -53,20 +70,7 @@ export default function filterCards(){
               <option value="Pasado a Presente">Pasado a presente</option>
               <option value="Presente a Pasado">Presente a pasado</option>
           </select>
-           <select onChange={handleFilterSource} >
-              <option value="All">Por origen</option>
-              <option value="bdd">Base de datos</option>
-              <option value="api">API</option>
-          </select>
-          <select onChange={handleFilterTeams}>
-           <option>Escuderias</option>
-            {teams.map((team) => (
-            <option key={team.id} value={team.name}>
-             {team.nombre}
-            </option>
-         ))}
-              
-          </select>
+  
           </div>
         )
 }

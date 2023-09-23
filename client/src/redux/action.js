@@ -25,7 +25,6 @@ export function getDrivers(){
 export function getDriverDetail(id){
    return async function(dispatch){
       const response = await axios(`http://localhost:3001/drivers/${id}`)
-      console.log('action:' + response.data)
       return dispatch({
          type: DRIVER_DETAIL,
          payload: response.data,

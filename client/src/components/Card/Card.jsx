@@ -6,9 +6,11 @@ export default function Card({name,teams,imagen,id}) {
 
    return (
       <div className={styles.container}>
-          <img src={imagen}/>
+         
+          <img className={styles.imagebox} src={imagen}/>
+          
           <Link className={styles.titulo} to={ `/detail/${id}`}> <h2 className={styles.titulo}>{name}</h2></Link> 
-          <h2 className={styles.titulo}>{teams}</h2>        
+          <p className={styles.p}>{teams}</p>        
       </div>
    );
 }

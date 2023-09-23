@@ -1,53 +1,30 @@
-.titulo{
-    color:white;
+.container {
+    width: 202px;
+    height:350px; /* Set the width of each card to 48% (2 cards per row with some margin) */
+    margin: 1%; /* Create a small gap between cards */
+    display: inline-block; /* Display cards in a row */
+    vertical-align: top; /* Align cards to the top */
+    box-sizing: border-box; /* Include padding and border in the total width/height */
+    text-align: center; /* Center-align content */
+    background-color: #3d3d3d; /* Background color for cards */ /* Add padding to the cards */
+    border: 1px solid #000000; /* Add a border to the cards */
+    border-radius: 5px; /* Add border-radius for rounded corners */
+    color: white;
+    box-shadow: 10px 5px rgb(0,0,0,0.70);
+  }
+  
+  
+  
+  .titulo {
     text-decoration: none;
-}
-.container{
-    display:flex;
-    flex-direction: column;
-    border-radius: 5px;
-    width:150px;
-    height:250px;
-    border: 2px solid rgb(44, 44, 44);
-    background-color: rgb(0,0,0,0.50);
-    margin: 5px;
-}
-.button{
-    position:absolute;
-    background-color:rgb(60,60,60,0.45);
-    color: white;
-    font-weight: bolder;
-    border-radius: 2px;
-    width:20px;
-    border:none;
-    display: inline;
-}
-.button:hover{
-    cursor:pointer
-}
-.info{
-    font-size: 12px;
-    color: white;
-    padding: 5px;
-}
-.image{
-    width: 150px;
-    height: 150px;
-    margin: 0 auto;
-}
-.text{
-    font-size: small;
-}
-
-.container:hover{
-background-color: rgb(4, 235, 146);
-transition: 0.5s ease-in-out;
-padding:auto;
-}
-.favbutton{
-    color:red;
-    display:block
-}
-p{
-    color: antiquewhite;
-}
+    color:white /* Remove underlines from links */
+  }
+  
+  .p {
+    color: white
+  }
+  .imagebox{
+    width: 200px; /* width of container */
+    height: 200px; /* height of container */
+    object-fit: cover;
+  }

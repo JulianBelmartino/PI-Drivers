@@ -4,8 +4,10 @@ const initialState ={
     myDriver: [],
     allDrivers: [],
     orderedDrivers: [],
+    idDrivers:[],
     allTeams: [],
-    driverDetail: []
+    driverDetail: [],
+    cleanState: []
 };
 const rootReducer = (state = initialState,action) => {
     switch(action.type){
@@ -26,24 +28,25 @@ const rootReducer = (state = initialState,action) => {
             return { ...state, myDriver: action.payload}
     
         case ORDER:
-                let orderedDrivers = [];
+                let idDrivers = [];
               if (state.myDriver.length !== 0) {
-                orderedDrivers = [...state.myDriver];
+                idDrivers = [...state.myDriver];
               } else if (state.orderedDrivers.length !== 0) {
-                orderedDrivers = [...state.orderedDrivers];
+                idDrivers = [...state.orderedDrivers];
               } else {
-                orderedDrivers = [...state.allDrivers];
+                idDrivers = [...state.allDrivers];
               }
-
+              
               if (action.payload === "A") {
-                 orderedDrivers.sort((a, b) => {
+                
+                idDrivers.sort((a, b) => {
               // Handle NaN values by moving them to the end
               if (isNaN(a.id)) return 1;
               if (isNaN(b.id)) return -1;
                 return a.id - b.id;
               });
               } else if (action.payload === "D") {
-                 orderedDrivers.sort((a, b) => {
+                idDrivers.sort((a, b) => {
               // Handle NaN values by moving them to the end
               if (isNaN(a.id)) return -1;
               if (isNaN(b.id)) return 1;
@@ -51,7 +54,7 @@ const rootReducer = (state = initialState,action) => {
                });
               }
 
-            return {...state, orderedDrivers: orderedDrivers};
+            return {...state, orderedDrivers: idDrivers};
        
         case ORDER_ALPHA:
                 let alphabeticalDrivers = [];
@@ -62,7 +65,7 @@ const rootReducer = (state = initialState,action) => {
                 } else {
                   alphabeticalDrivers = [...state.allDrivers];
                 }
-
+                
 
         if (action.payload === "Alpha") {
             alphabeticalDrivers.sort((a, b) => {
@@ -81,13 +84,13 @@ const rootReducer = (state = initialState,action) => {
         case ORDER_DOB:
           let dobDrivers = [];
           if (state.myDriver.length !== 0) {
-            dobDrivers = [...state.myDrivers];
+            dobDrivers = [...state.myDriver];
           } else if (state.orderedDrivers.length !== 0) {
             dobDrivers = [...state.orderedDrivers];
           } else {
             dobDrivers = [...state.allDrivers];
           }
-
+          
           if (action.payload === "Pasado a Presente") {
             dobDrivers.sort((a, b) => {
              if (!a.fechaNac) return 1; // Si no hay fecha de nacimiento, a va al final
@@ -112,17 +115,23 @@ const rootReducer = (state = initialState,action) => {
             } else {
               sourceDrivers = [...state.allDrivers];
             }
-          
+            
             if (action.payload === "bdd") {
-              const driversBdd = sourceDrivers.filter((driver) => isNaN(driver.id));
-              console.log("Drivers in 'bdd' category:", driversBdd)
-              return { ...state, orderedDrivers: driversBdd };
+              const driversApi = sourceDrivers.filter((driver) => driver.created === false);
+              const driversBdd = sourceDrivers.filter((driver) => driver.created === true);
+              console.log("Drivers in 'bdd' category:", driversBdd.length)
+              console.log("Drivers in 'api' category:", driversApi.length);
+              return { ...state, orderedDrivers: driversBdd, discartedDrivers : driversApi };
             } else if (action.payload === "api") {
-              const driversApi = sourceDrivers.filter((driver) => typeof driver.id === 'number');
-              console.log("Drivers in 'api' category:", driversApi);
-              return { ...state, orderedDrivers: driversApi };
+              const driversApi = sourceDrivers.filter((driver) => driver.created === false);
+              const driversBdd = sourceDrivers.filter((driver) => driver.created === true);
+              console.log("Drivers in 'bdd' category:", driversBdd.length)
+              console.log("Drivers in 'api' category:", driversApi.length);
+              return { ...state, orderedDrivers: driversApi, discartedDrivers : driversBdd };
             }else if(action.payload === "All"){
-              return { ...state, orderedDrivers: sourceDrivers };
+              let cleanDrivers = [...state.allDrivers]
+              console.log("Drivers in 'all' category:", driversAll.length);
+              return { ...state, orderedDrivers: cleanDrivers };
             }
           
             return { ...state, orderedDrivers: sourceDrivers };
@@ -136,7 +145,7 @@ const rootReducer = (state = initialState,action) => {
             } else {
               teamDrivers = [...state.allDrivers];
             }
-  
+            
             const filteredDbTeamDrivers = teamDrivers.filter((driver) => driver.Teams);
             const driversDbTeam = filteredDbTeamDrivers.filter((driver) => driver.Teams.includes(action.payload));
 

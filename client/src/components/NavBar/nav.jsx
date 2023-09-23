@@ -9,7 +9,6 @@ export default function Nav() {
          <Link className={styles.linkNav} to="/form">CREATE</Link>
          <Link className={styles.linkNav} to="/home" >HOME</Link>
          </div>
-         <SearchBar />
       </div>
    );
 }

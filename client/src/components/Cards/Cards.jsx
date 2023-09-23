@@ -1,77 +1,75 @@
 import Card from '../Card/Card';
-import styles from './Cards.module.css'
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import {useDispatch, useSelector} from 'react-redux'
-import {getDrivers} from '../../redux/action'
-import Filter from '../Filters/Filter'
+import styles from './Cards.module.css';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDrivers } from '../../redux/action';
+import SearchBar from '../SearchBar/SearchBar';
+import Filter from '../Filters/Filter';
 
 export default function Cards(props) {
-const allDrivers = useSelector((state) => state.allDrivers)
-const selectedDrivers = useSelector((state) => state.myDriver);
-const orderedDrivers = useSelector((state) => state.orderedDrivers);
-const dispatch = useDispatch()
+  const allDrivers = useSelector((state) => state.allDrivers);
+  const myDriver = useSelector((state) => state.myDriver);
+  const orderedDrivers = useSelector((state) => state.orderedDrivers);
+  const dispatch = useDispatch();
 
-const itemsPerPage = 9; // Number of items to display per page
+  const isLoading = useSelector((state) => state.isLoading);
+
+  const itemsPerPage = 9; // Number of items to display per page
   const [currentPage, setCurrentPage] = useState(1);
-  const [flag, setFlag] = useState(true)
 
-  useEffect(() =>{
-  dispatch(getDrivers())
+  useEffect(() => {
+    dispatch(getDrivers());
+  }, [dispatch, orderedDrivers]);
 
-},[dispatch])
+  // Determine the currentDrivers based on conditions
+  let currentDrivers = [];
 
-let currentDrivers = selectedDrivers.length > 0 ? selectedDrivers : allDrivers;
-
-if (!currentDrivers || currentDrivers.length === 0) {
-  return <p>Loading...</p>; // Or any loading indicator you prefer
-}else if(!orderedDrivers || orderedDrivers.length === 0){
-   currentDrivers = allDrivers
-}else{
-  currentDrivers = orderedDrivers
-}
-
-// Calculate the start and end index for the current page
-const startIndex = (currentPage - 1) * itemsPerPage;
-const endIndex = startIndex + itemsPerPage;
-
-// Slice the data to display only the items for the current page
-
-const driversToDisplay = currentDrivers.slice(startIndex, endIndex);
-
-// Calculate the total number of pages
-const totalPages = Math.ceil(allDrivers.length / itemsPerPage);
-
-// Function to handle pagination navigation
-const handlePageChange = (newPage) => {
-  setCurrentPage(newPage);
-};
-
-return (
-  
-  <div className={styles.container} >
-  <div><Filter /></div>
-  <div className={styles.cards} >
-  {
-  driversToDisplay && driversToDisplay.length > 0 ? 
-  driversToDisplay.map((drivers) =>{
-   return <Card
-            key={drivers.id}
-             id={drivers.id}
-             name={drivers.nombre}
-             teams={drivers.Teams?drivers.Teams:drivers.teams}
-             imagen={drivers.imagen.url?drivers.imagen.url:drivers.imagen}
-             />
-    })
-  :
-  <p>No se encontraron resultados</p>
+  if (isLoading) {
+    return <p>Loading...</p>; // Show loading indicator while data is being fetched
   }
 
+  if (myDriver.length > 0) {
+    currentDrivers = myDriver;
+  } else if (orderedDrivers.length > 0) {
+    currentDrivers = orderedDrivers;
+  } else {
+    currentDrivers = allDrivers;
+  }
 
-    </div>
-      <div>
-            {/* Pagination controls */}
-            <div className={styles.pagination}>
+  if (currentDrivers.length === 0) {
+    return <p>No drivers available</p>; // Handle case when no data is present
+  }
+
+  // Calculate the start and end index for the current page
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  // Slice the data to display only the items for the current page
+  const driversToDisplay = currentDrivers.slice(startIndex, endIndex);
+
+  // Calculate the total number of pages based on the number of drivers
+  const totalPages = Math.ceil(currentDrivers.length / itemsPerPage);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+  
+  return (
+    <div className={styles.container}>
+      <div><SearchBar /></div>
+      <div><Filter /></div>
+      <div className={styles.cards}>
+        {driversToDisplay.map((drivers) => (
+          <Card
+            key={drivers.id}
+            id={drivers.id}
+            name={drivers.nombre}
+            teams={drivers.Teams ? drivers.Teams : drivers.teams}
+            imagen={drivers.imagen.url ? drivers.imagen.url : drivers.imagen}
+          />
+        ))}
+      </div>
+      <div className={styles.pagination}>
         <button
           disabled={currentPage === 1}
           onClick={() => handlePageChange(currentPage - 1)}
@@ -86,8 +84,6 @@ return (
           Next
         </button>
       </div>
-      </div> 
-
-   </div>
-   );
+    </div>
+  );
 }

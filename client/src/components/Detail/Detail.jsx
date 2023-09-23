@@ -18,6 +18,7 @@ export default function Detail(){
   },[dispatch])
 
    
+  console.log(driverDetail)
    if (!driverDetail || driverDetail.length === 0) {
     return <p>Loading...</p>; // Or any loading indicator you prefer
   }
