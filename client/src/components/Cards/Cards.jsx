@@ -1,13 +1,12 @@
 import Card from '../Card/Card';
 import styles from './Cards.module.css'
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import {getDrivers} from '../../redux/action'
-import { useEffect } from 'react';
 import Filter from '../Filters/Filter'
 
-export default function Cards() {
+export default function Cards(props) {
 const allDrivers = useSelector((state) => state.allDrivers)
 const selectedDrivers = useSelector((state) => state.myDriver);
 const orderedDrivers = useSelector((state) => state.orderedDrivers);
@@ -15,17 +14,20 @@ const dispatch = useDispatch()
 
 const itemsPerPage = 9; // Number of items to display per page
   const [currentPage, setCurrentPage] = useState(1);
-  
+  const [flag, setFlag] = useState(true)
 
   useEffect(() =>{
   dispatch(getDrivers())
+
 },[dispatch])
 
 let currentDrivers = selectedDrivers.length > 0 ? selectedDrivers : allDrivers;
 
 if (!currentDrivers || currentDrivers.length === 0) {
   return <p>Loading...</p>; // Or any loading indicator you prefer
-}else if(orderedDrivers.length > 0){
+}else if(!orderedDrivers || orderedDrivers.length === 0){
+   currentDrivers = allDrivers
+}else{
   currentDrivers = orderedDrivers
 }
 
@@ -50,15 +52,22 @@ return (
   <div className={styles.container} >
   <div><Filter /></div>
   <div className={styles.cards} >
-  {driversToDisplay.map((drivers) =>{
+  {
+  driversToDisplay && driversToDisplay.length > 0 ? 
+  driversToDisplay.map((drivers) =>{
    return <Card
             key={drivers.id}
              id={drivers.id}
              name={drivers.nombre}
              teams={drivers.Teams?drivers.Teams:drivers.teams}
-             imagen={drivers.imagen.url}
+             imagen={drivers.imagen.url?drivers.imagen.url:drivers.imagen}
              />
-    })}
+    })
+  :
+  <p>No se encontraron resultados</p>
+  }
+
+
     </div>
       <div>
             {/* Pagination controls */}

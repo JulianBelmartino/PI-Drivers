@@ -6,6 +6,34 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function Form() {
   const dispatch = useDispatch();
 
+  const regex = /^[a-zA-Z]+$/;
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  const regexURL = /^(https?:\/\/)?([\w-]+\.)+[\w]+(\/[\w- ./?%&=]*)?$/;
+
+const validate = (event) =>{
+  const inputValue = event.target.value; 
+    if(event.target.name === "apellido" ||  event.target.name === "nombre" ||
+        event.target.name === "descripcion" ||  event.target.name === "nacionalidad" ){
+      if(regex.test(inputValue)){
+        console.log('validado')
+      }else{
+        console.log('error')
+      }
+    }else if(event.target.name === "fechaNac"){
+      if(dateRegex.test(inputValue)){
+        console.log('validado')
+      }else{
+        console.log('error')
+      }
+    }else if(event.target.name === "imagen"){
+        if(regexURL.test(inputValue)){
+        console.log('validado')
+    }else{
+      console.log('error')
+    }
+  }
+}
+
   const [driverData, setDriverData] = useState({
     nombre: '',
     apellido: '',
@@ -17,6 +45,7 @@ export default function Form() {
   });
 
   const handleChange = (event) => {
+    validate(event)
     const property = event.target.name;
     const value = event.target.value;
 

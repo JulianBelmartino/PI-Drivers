@@ -7,7 +7,7 @@ import {getDriverDetail} from '../../redux/action'
 
 
 export default function Detail(){
-  const driverDetail = useSelector((state) => state.myDriver)
+  const driverDetail = useSelector((state) => state.driverDetail)
   const [driver, setDriver] = useState([])
   const dispatch = useDispatch()
   const { id } = useParams();
@@ -17,8 +17,8 @@ export default function Detail(){
     dispatch(getDriverDetail(id))
   },[dispatch])
 
-   console.log(driverDetail)
-   if (!driverDetail) {
+   
+   if (!driverDetail || driverDetail.length === 0) {
     return <p>Loading...</p>; // Or any loading indicator you prefer
   }
   return(
@@ -29,10 +29,9 @@ export default function Detail(){
       <h4>Nacionalidad:{driverDetail.nacionalidad}</h4>
       <h6>Fecha de Nacimiento:{driverDetail.fechaNac}</h6>
       <h6>Teams:{driverDetail.teams}</h6>
-      <p>Descripcion: {driverDetail.descripcion}</p>
-      {driverDetail.imagen && driverDetail.imagen.url && (
-      <img src={driverDetail.imagen.url} alt={`Image of ${driverDetail.nombre} ${driverDetail.apellido}`} />
-      )}
+      <p>Descripcion: {driverDetail.descripcion ? driverDetail.descripcion : 'Sin descripcion disponible'}</p>
+      <img src={driverDetail.imagen.url? driverDetail.imagen.url : driverDetail.imagen} alt={`Image of ${driverDetail.nombre} ${driverDetail.apellido}`} />
+      
       </div>
       )
      
