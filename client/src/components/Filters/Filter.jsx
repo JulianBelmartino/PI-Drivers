@@ -1,6 +1,6 @@
 import {orderCards, orderCardsAlpha, orderCardsDob, filterCardsSource, filterCardsTeams, getTeams } from '../../redux/action';
 import { useDispatch,useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 
 
 export default function filterCards(){
@@ -8,10 +8,12 @@ export default function filterCards(){
     const driverOrdered = useSelector((state) => state.orderedDrivers)
     const teams = useSelector((state) => state.allTeams)
     
+    const [flag, setFlag] = useState(false)
+    
     const handleFilterSource = (event) => {
         const filter = event.target.value
-        dispatch(filterCardsSource(filter))
-        
+        dispatch(filterCardsSource(filter,flag))
+        setFlag(true)
         }
     const handleFilterTeams = (event) => {
         const filter = event.target.value

@@ -34,7 +34,7 @@ export function getDriverDetail(id){
 
 export function getDriverByName(name){
    return async function(dispatch){
-      const response = await axios(`http://localhost:3001/drivers?name=${name}`)
+      const response = await axios(`http://localhost:3001/drivers?name.forename=${name}`)
       return dispatch({
          type: DRIVERS_NAME,
          payload: response.data,
@@ -59,8 +59,8 @@ export function createDriver(driverData) {
    };
  }
 
-export const filterCardsSource = (filter) => {
-    return{type:FILTER_SOURCE,payload:filter}
+export const filterCardsSource = (filter, flag) => {
+    return{type:FILTER_SOURCE,payload:{filter,flag}}
 }
 export const filterCardsTeams = (filter) => {
    return{type:FILTER_TEAM,payload:filter}

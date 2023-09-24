@@ -10,6 +10,7 @@ export default function Cards(props) {
   const allDrivers = useSelector((state) => state.allDrivers);
   const myDriver = useSelector((state) => state.myDriver);
   const orderedDrivers = useSelector((state) => state.orderedDrivers);
+  const filterFlag = useSelector((state) => state.filterFlag)
   const dispatch = useDispatch();
 
   const isLoading = useSelector((state) => state.isLoading);
@@ -19,7 +20,8 @@ export default function Cards(props) {
 
   useEffect(() => {
     dispatch(getDrivers());
-  }, [dispatch, orderedDrivers]);
+    setCurrentPage(1);
+  }, [dispatch, orderedDrivers, myDriver]);
 
   // Determine the currentDrivers based on conditions
   let currentDrivers = [];
@@ -29,7 +31,11 @@ export default function Cards(props) {
   }
 
   if (myDriver.length > 0) {
+    if(filterFlag === false) {
     currentDrivers = myDriver;
+    }else{
+      currentDrivers = orderedDrivers;
+    }
   } else if (orderedDrivers.length > 0) {
     currentDrivers = orderedDrivers;
   } else {
@@ -75,14 +81,14 @@ export default function Cards(props) {
           disabled={currentPage === 1}
           onClick={() => handlePageChange(currentPage - 1)}
         >
-          Previous
+          PREVIOUS
         </button>
-        <span>{`Page ${currentPage} of ${totalPages}`}</span>
+        <span>{`PAGE ${currentPage} OF ${totalPages}`}</span>
         <button
           disabled={currentPage === totalPages}
           onClick={() => handlePageChange(currentPage + 1)}
         >
-          Next
+          NEXT
         </button>
       </div>
     </div>
