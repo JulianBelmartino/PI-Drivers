@@ -15,7 +15,8 @@ export default function SearchBar({ onSearch }) {
       dispatch(getDriverByName(name));
       console.log('click') 
    }
-
+  
+  
    return (
       <div>
       <input className={styles.input} type='search' onChange={handleChange} />

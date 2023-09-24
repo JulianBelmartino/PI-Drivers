@@ -129,12 +129,11 @@ const getDriverById = async (id, source) => {
         // Fetch data from the API
         const driverApiOriginal = (await axios.get("http://localhost:5000/drivers")).data;
         const driversApi = formatArray(driverApiOriginal);
-          console.log(formattedDatabaseData)
         // Transform the API data
         // Merge both sets of data
         return [...driversApi, ...formattedDatabaseData];
       } catch (error) {
-        console.error('Error in getAllDrivers:', error);
+        
         throw error; // Optionally rethrow the error for handling in the caller
       }
     };
@@ -179,7 +178,6 @@ const getDriverById = async (id, source) => {
     return allDrivers;
   } catch (error) {
     // Manejar errores aquí
-    console.error("Error en la búsqueda de conductores:", error);
     throw error; // Puedes decidir si deseas propagar el error o manejarlo de otra manera
   }
 };

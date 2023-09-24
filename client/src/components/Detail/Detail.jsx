@@ -24,15 +24,18 @@ export default function Detail(){
   }
   return(
       <div className={styles.container}>
-      <p>ID:{driverDetail.id}</p>
-      <h1>Nombre:{driverDetail.nombre}</h1>
-      <h1>Apellido:{driverDetail.apellido}</h1>
-      <h4>Nacionalidad:{driverDetail.nacionalidad}</h4>
-      <h6>Fecha de Nacimiento:{driverDetail.fechaNac}</h6>
+      <div>
+        <img className={styles.formula1} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwZLI-GlYOv2VmST7P5CJugV78yBmXA6kpAPFpewcunFLlKmQgRTZB7eMZPj1aEGgxvck&usqp=CAU" />
+      <img  className={styles.image} src={driverDetail.imagen.url? driverDetail.imagen.url : driverDetail.imagen} alt={`Image of ${driverDetail.nombre} ${driverDetail.apellido}`} />
+      </div>
+        <div  className={styles.info}>
+      <p>{driverDetail.id}</p>
+      <h1>{driverDetail.nombre} {driverDetail.apellido}</h1>
+      <h4>Nationality:{driverDetail.nacionalidad}</h4>
+      <h6>Date of Birth:{driverDetail.fechaNac}</h6>
       <h6>Teams:{driverDetail.teams}</h6>
-      <p>Descripcion: {driverDetail.descripcion ? driverDetail.descripcion : 'Sin descripcion disponible'}</p>
-      <img src={driverDetail.imagen.url? driverDetail.imagen.url : driverDetail.imagen} alt={`Image of ${driverDetail.nombre} ${driverDetail.apellido}`} />
-      
+      <p>Descripcion: {driverDetail.descripcion ? driverDetail.descripcion : 'No discription available'}</p>
+      </div>
       </div>
       )
      

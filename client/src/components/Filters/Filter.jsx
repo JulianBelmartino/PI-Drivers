@@ -37,8 +37,8 @@ export default function filterCards(){
 
      return(
 
-        <div >
-                    <div>
+        
+        <div>
            <select onChange={handleFilterSource} >
               <option value="All">Por origen</option>
               <option value="bdd">Base de datos</option>
@@ -54,7 +54,7 @@ export default function filterCards(){
          ))}
               
           </select>
-          </div>
+          
         <select onChange={handleOrder} >
               <option value="Id">Por ID</option>
               <option value="A">Ascendente</option>

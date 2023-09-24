@@ -53,17 +53,18 @@ export default function Cards(props) {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-  
+
+
   return (
     <div className={styles.container}>
-      <div><SearchBar /></div>
-      <div><Filter /></div>
+      <div className={styles.filters}><SearchBar/> <Filter/></div>
       <div className={styles.cards}>
         {driversToDisplay.map((drivers) => (
           <Card
             key={drivers.id}
             id={drivers.id}
             name={drivers.nombre}
+            apellido={drivers.apellido}
             teams={drivers.Teams ? drivers.Teams : drivers.teams}
             imagen={drivers.imagen.url ? drivers.imagen.url : drivers.imagen}
           />
