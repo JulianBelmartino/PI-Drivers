@@ -3,8 +3,10 @@ import { createDriver } from '../../redux/action';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+
 export default function Form() {
   const dispatch = useDispatch();
+  const [shouldRefreshPage, setShouldRefreshPage] = useState(false);
 
   const regex = /^[a-zA-Z]+$/;
   const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
@@ -78,7 +80,9 @@ export default function Form() {
     // Validate the input on change
     validate(event);
   };
-
+  function refreshPage() {
+    window.location.reload();
+  }
   const submitHandler = (event) => {
     event.preventDefault();
 
@@ -97,11 +101,56 @@ export default function Form() {
         imagen: '',
         Teams: [],
       });
+      toggleRefreshPage();
+
+      toggleModal();
+      
+    }else if (hasErrors){
+      toggleModalError()
+    
     }
   };
 
+  // Modal State
+  const [showModal, setShowModal] = useState(false);
+  const [showModalError, setShowModalError] = useState(false);
+  // Toggle Modal Function
+  const toggleModal = () => {
+    setShowModal(!showModal);
+    if (shouldRefreshPage) {
+      refreshPage();
+    }
+  };
+  const toggleRefreshPage = () => {
+    setShouldRefreshPage(!shouldRefreshPage);
+  };
+
+  const toggleModalError = () => {
+    setShowModalError(!showModalError);
+  };
+  function refreshPage() {
+    window.location.reload();
+  }
   return (
     <div className={styles.container}>
+       {/* Modal */}
+       {showModal && (
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <h2>Driver Created Successfully</h2>
+            <button onClick={toggleModal}>Close</button>
+          </div>
+        </div>
+      )}
+         {/* Error Modal */}
+         {showModalError && (
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <h2>All fields are required</h2>
+            <button onClick={toggleModalError}>Close</button>
+          </div>
+        </div>
+      )}
       <form className={styles.forma} onSubmit={submitHandler}>
         <div className={styles.container}>
           <div>
@@ -207,6 +256,8 @@ export default function Form() {
           </button>
         </div>
       </form>
+     
+    
     </div>
   );
 }

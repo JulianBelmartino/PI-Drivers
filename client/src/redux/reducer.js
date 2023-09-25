@@ -46,14 +46,14 @@ const rootReducer = (state = initialState,action) => {
               if (action.payload === "A") {
                 
                 idDrivers.sort((a, b) => {
-              // Handle NaN values by moving them to the end
+              
               if (isNaN(a.id)) return 1;
               if (isNaN(b.id)) return -1;
               return a.id - b.id;
               });
               } else if (action.payload === "D") {
                 idDrivers.sort((a, b) => {
-              // Handle NaN values by moving them to the end
+              
               if (isNaN(a.id)) return -1;
               if (isNaN(b.id)) return 1;
                  return b.id - a.id;
@@ -79,12 +79,12 @@ const rootReducer = (state = initialState,action) => {
 
         if (action.payload === "Alpha") {
             alphabeticalDrivers.sort((a, b) => {
-                 // Use localeCompare for accurate alphabetical sorting
+               
             return a.nombre.localeCompare(b.nombre);
         });
         } else if (action.payload === "Reverse") {
           alphabeticalDrivers.sort((a, b) => {
-          // Use localeCompare for accurate alphabetical sorting in reverse
+          
           return b.nombre.localeCompare(a.nombre);
         });
         }
@@ -135,8 +135,7 @@ const rootReducer = (state = initialState,action) => {
             } else {
               sourceDrivers = [...state.allDrivers];
             }
-            console.log(sourceDrivers)
-            console.log(state.filterFlag)
+
             if (source === "bdd") {
               const driversBdd = sourceDrivers.filter((driver) => driver.created === true);
               const driversApi = sourceDrivers.filter((driver) => driver.created === false);

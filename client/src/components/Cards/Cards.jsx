@@ -78,6 +78,7 @@ export default function Cards(props) {
       </div>
       <div className={styles.pagination}>
         <button
+          className={styles.navButton}
           disabled={currentPage === 1}
           onClick={() => handlePageChange(currentPage - 1)}
         >
@@ -85,6 +86,7 @@ export default function Cards(props) {
         </button>
         <span>{`PAGE ${currentPage} OF ${totalPages}`}</span>
         <button
+          className={styles.navButton}
           disabled={currentPage === totalPages}
           onClick={() => handlePageChange(currentPage + 1)}
         >

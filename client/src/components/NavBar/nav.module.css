@@ -6,7 +6,7 @@
   }
 .linkBar{
     background-color: rgb(37, 37, 37);
-    position: fixed;
+    position: absolute;
     padding: 20px 0px;
     color:white;
     top: 0;

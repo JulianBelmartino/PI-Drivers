@@ -5,25 +5,32 @@
 
   .container{
     width:1200px;
-    background-color: rgba(8, 8, 8);
+    height: 95vh;
+    background-color: rgb(58, 58, 66);
     display: flex;
     flex-direction: column;
-    padding: 5px;
-    flex-wrap: wrap;
+  
 }
 .cards {
-  height: 100vh; /* Set the height to 100% of the viewport height */
   margin: 0; /* Remove margin */
   padding: 0; /* Remove padding */
-  overflow: hidden; /* Prevent content overflow */
-  background-color: rgba(8, 8, 8);
+  
+  background-color: rgb(27, 26, 26);
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 .filters{
-    margin:25px;
+    margin-top:35px;
     display: flex;
     flex-direction: row;
+}
+.pagination{
+  color:white;
+  position: fixed;
+  bottom:10px;
+  left: 40%;
+  right: auto;
+  background-color:red;
 }
