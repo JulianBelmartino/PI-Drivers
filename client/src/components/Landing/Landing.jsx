@@ -9,8 +9,8 @@ export default function Detail(){
 
      return(
       <div className={styles.container}>
-     <h1>HOLA LANDING</h1>
-     <Link className={styles.titulo} to={`/home`}> <p>Home</p></Link>
+   
+     <Link className={styles.titulo} to={`/home`}> <h1>E N T E R</h1></Link>
       </div>
       )
      

@@ -1,18 +1,30 @@
-.container{
+body {
+    background-image: url('https://images2.alphacoders.com/152/152602.jpg');
+    background-size: cover;
+    margin: 0;
+    padding: 0px;
     display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
     color: white;
-    background-color: #00000080;
-    border-radius: 15px;
-    backdrop-filter: blur(5px);
-    width: 40%;
-    padding: 5%;
-    margin: 25px auto;
-    box-shadow: 10px 5px rgb(0,0,0,0.70);
+    position: relative;
     justify-content: space-between;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    padding: 20px; 
 }
-.imgs{
-    border-radius: 50%;
+.titulo {
+    text-decoration: none;
+    color: white;
+    text-shadow: 0 0 90px black; /* Add a shadow with black color */
+    transition: text-shadow 0.3s ease-in-out; /* Smooth transition for the shadow */
 }
-h1, p{
-    color: antiquewhite;
+
+.titulo:hover {
+    text-shadow: 0 0 10px rgb(255, 0, 0), 0 0 50px rgb(255, 255, 255), 0 0 60px rgb(255, 217, 0); /* Make the letters glow on hover */
 }

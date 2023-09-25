@@ -4,7 +4,9 @@
   padding: 2rem;
   text-align: center;
 }
-
+body{
+  background-color: black;
+}
 .App {
   text-align: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;

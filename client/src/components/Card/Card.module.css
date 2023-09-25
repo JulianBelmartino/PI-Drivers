@@ -1,31 +1,44 @@
 .container {
-    width: 202px;
-    height:350px; /* Set the width of each card to 48% (2 cards per row with some margin) */
-    margin: 1%; /* Create a small gap between cards */
-    display: inline-block; /* Display cards in a row */
-    vertical-align: top; /* Align cards to the top */
-    box-sizing: border-box; /* Include padding and border in the total width/height */
-    text-align: center; /* Center-align content */
-    background-color: #3d3d3d; /* Background color for cards */ /* Add padding to the cards */
-    border: 1px solid #000000; /* Add a border to the cards */
-    border-radius: 5px; /* Add border-radius for rounded corners */
-    color: white;
-    box-shadow: 10px 5px rgb(0,0,0,0.70);
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-  }
-  
-  
-  
+  width: 102px;
+  height: 250px; /* Set the width of each card to 48% (2 cards per row with some margin) */
+  margin: 1%; /* Create a small gap between cards */
+  display: inline-block; /* Display cards in a row */
+  vertical-align: top; /* Align cards to the top */
+  box-sizing: border-box; /* Include padding and border in the total width/height */
+  text-align: center; /* Center-align content */
+  background-color: #3d3d3d; /* Background color for cards */
+  /* Add padding to the cards */
+  border: 1px solid #000000; /* Add a border to the cards */
+  border-radius: 5px; /* Add border-radius for rounded corners */
+  color: white;
+  box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.7);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  transition: transform 0.3s ease-in-out; /* Apply transition to transform property */
+}
+
+.container:hover {
+  background-color: red;
+  transform: translateY(-10px); /* Move the card up by 10px when hovered */
+}
+   
   .titulo {
     text-decoration: none;
     color:white /* Remove underlines from links */
   }
-  
-  .p {
-    color: white
-  }
+ .p {
+  color: white;
+  max-height: 60px; /* Adjust the max height as needed */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.container:hover .p {
+  max-height: none; /* Remove the max height on hover to display full content */
+}
   .imagebox{
-    width: 200px; /* width of container */
-    height: 200px; /* height of container */
+    width: 100px; /* width of container */
+    height: 100px; /* height of container */
     object-fit: cover;
   }
+ 
