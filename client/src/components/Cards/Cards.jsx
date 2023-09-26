@@ -26,11 +26,11 @@ export default function Cards(props) {
     localStorage.setItem('currentPage', currentPage);
   }, [dispatch, orderedDrivers, myDriver,currentPage]);
 
-  // Determine the currentDrivers based on conditions
+  
   let currentDrivers = [];
 
   if (isLoading) {
-    return <p>Loading...</p>; // Show loading indicator while data is being fetched
+    return <p>Loading...</p>; 
   }
 
   if (myDriver.length > 0) {
@@ -46,17 +46,17 @@ export default function Cards(props) {
   }
 
   if (currentDrivers.length === 0) {
-    return <p>No drivers available</p>; // Handle case when no data is present
+    return <p>No drivers available</p>; 
   }
 
-  // Calculate the start and end index for the current page
+ 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  // Slice the data to display only the items for the current page
+  
   const driversToDisplay = currentDrivers.slice(startIndex, endIndex);
 
-  // Calculate the total number of pages based on the number of drivers
+  
   const totalPages = Math.ceil(currentDrivers.length / itemsPerPage);
 
   const handlePageChange = (newPage) => {

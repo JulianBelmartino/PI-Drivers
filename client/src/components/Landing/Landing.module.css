@@ -21,8 +21,8 @@ body {
 .titulo {
     text-decoration: none;
     color: white;
-    text-shadow: 0 0 90px black; /* Add a shadow with black color */
-    transition: text-shadow 0.3s ease-in-out; /* Smooth transition for the shadow */
+    text-shadow: 0 0 90px black;
+    transition: text-shadow 0.3s ease-in-out;
 }
 
 .titulo:hover {

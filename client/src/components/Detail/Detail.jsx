@@ -20,7 +20,7 @@ export default function Detail(){
    
   console.log(driverDetail)
    if (!driverDetail || driverDetail.length === 0) {
-    return <p>Loading...</p>; // Or any loading indicator you prefer
+    return <p>Loading...</p>; 
   }
   return(
       <div className={styles.container}>

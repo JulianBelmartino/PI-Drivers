@@ -113,8 +113,8 @@ const rootReducer = (state = initialState,action) => {
            });
           } else if (action.payload === "Presente a Pasado") {
             dobDrivers.sort((a, b) => {
-             if (!a.fechaNac) return 1; // Si no hay fecha de nacimiento, a va al final
-             if (!b.fechaNac) return -1; // Si no hay fecha de nacimiento, b va al final
+             if (!a.fechaNac) return 1; 
+             if (!b.fechaNac) return -1; 
              return new Date(b.fechaNac) - new Date(a.fechaNac);
              });
             }

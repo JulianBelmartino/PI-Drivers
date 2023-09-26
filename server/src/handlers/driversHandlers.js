@@ -1,12 +1,14 @@
 const {createDriver, getAllDrivers, getDriverById, getDriversByName} = require('../controllers/driversController.js')
 
+
 const getDriversHandler = async ( req , res) => {
     try {
-        const nombre = req.query.name;
+         
+        const nombre = req.query['name.forename'];
         const resultado = nombre ? await getDriversByName(nombre) : await getAllDrivers();
         res.status(200).json(resultado);
       } catch (error) {
-        console.error("Error en el controlador de conductores:", error);
+       
         res.status(500).json({ error: "Error en el servidor" });
       }
     }

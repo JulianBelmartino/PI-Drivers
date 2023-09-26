@@ -77,7 +77,7 @@ export default function Form() {
       setDriverData((prevData) => ({ ...prevData, [property]: value }));
     }
 
-    // Validate the input on change
+    
     validate(event);
   };
   function refreshPage() {
@@ -95,11 +95,10 @@ export default function Form() {
       driverData.imagen.trim() === '' ||
       driverData.Teams.length === 0
     ) {
-      // Si algún campo está vacío, muestra un mensaje de error o realiza alguna acción
-      // Puedes mostrar un modal de error, cambiar el estado, etc.
+      
       toggleModalError();
     } else {
-      // Si todos los campos obligatorios están completos, procede con el envío
+      
       dispatch(createDriver(driverData));
       setDriverData({
         nombre: '',
@@ -115,10 +114,10 @@ export default function Form() {
     }
   };
 
-  // Modal State
+  
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
-  // Toggle Modal Function
+ 
   const toggleModal = () => {
     setShowModal(!showModal);
     if (shouldRefreshPage) {
