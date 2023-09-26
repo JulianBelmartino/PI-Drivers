@@ -1,14 +1,16 @@
 .container {
     display: flex;
+    position:absolute;
+    top:18%;
+    left:22%;
     color: rgb(17, 17, 17);
     background: rgba(255, 255, 255, 0.9); /* Darken the background by adjusting the alpha (fourth) value */
     border-radius: 15px;
     backdrop-filter: blur(5px);
-    width: 60%;
+    width:600px;
     max-height: 400px;
-    padding: 5%;
+    padding: 2% 5%;
     margin: 0px auto;
-    margin-top: 30px;
     box-shadow: 10px 5px rgb(0, 0, 0, 0.7);
     justify-content: space-between;
   }

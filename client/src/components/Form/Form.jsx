@@ -26,7 +26,7 @@ export default function Form() {
     const inputValue = event.target.value;
     const inputName = event.target.name;
 
-    if (inputName === 'apellido' || inputName === 'nombre' || inputName === 'descripcion' || inputName === 'nacionalidad') {
+    if (inputName === 'apellido' || inputName === 'nombre' || inputName === 'nacionalidad') {
       if (!regex.test(inputValue)) {
         setErrorMessages((prevErrors) => ({
           ...prevErrors,
@@ -83,14 +83,23 @@ export default function Form() {
   function refreshPage() {
     window.location.reload();
   }
+
+  
   const submitHandler = (event) => {
-    event.preventDefault();
-
-    // Check if there are any error messages
-    const hasErrors = Object.values(errorMessages).some((message) => message !== '');
-
-    if (!hasErrors) {
-      // If there are no errors, dispatch the action and reset the form
+    if (
+      driverData.nombre.trim() === '' ||
+      driverData.apellido.trim() === '' ||
+      driverData.nacionalidad.trim() === '' ||
+      driverData.fechaNac.trim() === '' ||
+      driverData.descripcion.trim() === '' ||
+      driverData.imagen.trim() === '' ||
+      driverData.Teams.length === 0
+    ) {
+      // Si algún campo está vacío, muestra un mensaje de error o realiza alguna acción
+      // Puedes mostrar un modal de error, cambiar el estado, etc.
+      toggleModalError();
+    } else {
+      // Si todos los campos obligatorios están completos, procede con el envío
       dispatch(createDriver(driverData));
       setDriverData({
         nombre: '',
@@ -102,12 +111,7 @@ export default function Form() {
         Teams: [],
       });
       toggleRefreshPage();
-
       toggleModal();
-      
-    }else if (hasErrors){
-      toggleModalError()
-    
     }
   };
 
@@ -151,9 +155,11 @@ export default function Form() {
           </div>
         </div>
       )}
-      <form className={styles.forma} onSubmit={submitHandler}>
-        <div className={styles.container}>
-          <div>
+      <form className={styles.form} onSubmit={submitHandler}>
+        <div className={styles.container2}>
+
+          <div className={styles.bigRow}>
+          <div className={styles.row}>
             <label className={styles.label} htmlFor="nombre">
               Nombre:
             </label>
@@ -163,11 +169,12 @@ export default function Form() {
               name="nombre"
               onChange={handleChange}
               value={driverData.nombre}
+              required
             />
             <p className={styles.error}>{errorMessages.nombre}</p>
           </div>
 
-          <div>
+          <div className={styles.row}>
             <label className={styles.label} htmlFor="apellido">
               Apellido:
             </label>
@@ -177,11 +184,16 @@ export default function Form() {
               name="apellido"
               onChange={handleChange}
               value={driverData.apellido}
+              required
             />
             <p className={styles.error}>{errorMessages.apellido}</p>
           </div>
+          </div>
+          
+          
 
-          <div>
+          <div className={styles.bigRow}>
+          <div className={styles.row}>
             <label className={styles.label} htmlFor="nacionalidad">
               Nacionalidad:
             </label>
@@ -191,11 +203,12 @@ export default function Form() {
               name="nacionalidad"
               onChange={handleChange}
               value={driverData.nacionalidad}
+              required
             />
             <p className={styles.error}>{errorMessages.nacionalidad}</p>
           </div>
-
-          <div>
+          
+          <div className={styles.row}>
             <label className={styles.label} htmlFor="imagen">
               Imagen:
             </label>
@@ -205,11 +218,14 @@ export default function Form() {
               name="imagen"
               onChange={handleChange}
               value={driverData.imagen.url}
+              required
             />
             <p className={styles.error}>{errorMessages.imagen}</p>
           </div>
+          </div>
 
-          <div>
+          <div className={styles.bigRow}>
+          <div className={styles.row}>
             <label className={styles.label} htmlFor="fechaNac">
               Fecha de Nacimiento:
             </label>
@@ -219,11 +235,12 @@ export default function Form() {
               name="fechaNac"
               onChange={handleChange}
               value={driverData.fechaNac}
+              required
             />
             <p className={styles.error}>{errorMessages.fechaNac}</p>
           </div>
 
-          <div>
+          <div className={styles.row}>
             <label className={styles.label} htmlFor="descripcion">
               Descripcion:
             </label>
@@ -233,11 +250,14 @@ export default function Form() {
               name="descripcion"
               onChange={handleChange}
               value={driverData.descripcion}
+              required
             />
             <p className={styles.error}>{errorMessages.descripcion}</p>
           </div>
+          </div>
 
-          <div>
+          <div className={styles.bigRow}>
+          <div className={styles.row}>
             <label className={styles.label} htmlFor="Teams">
               Escuderias:
             </label>
@@ -247,6 +267,7 @@ export default function Form() {
               name="Teams"
               onChange={handleChange}
               value={driverData.Teams.map((team) => team.nombre).join(', ')}
+              required
             />
             <p className={styles.error}>{errorMessages.Teams}</p>
           </div>
@@ -254,7 +275,8 @@ export default function Form() {
           <button className={styles.button} type="submit" value="Submit">
             CREATE
           </button>
-        </div>
+          </div>
+          </div>
       </form>
      
     

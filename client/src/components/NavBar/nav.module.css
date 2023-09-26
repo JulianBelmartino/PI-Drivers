@@ -1,26 +1,25 @@
-#root {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0;
 
-  }
 .linkBar{
-    background-color: rgb(37, 37, 37);
+    width:100%;
+    background-color: rgb(19, 18, 18);
     position: absolute;
     padding: 20px 0px;
     color:white;
     top: 0;
     left:0;
-    width: 100%;
     justify-content: space-between;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: left;
+
 }
 .linkNav{
+    margin-left: 10px;
     margin-right:15px;
     color:white;
     text-decoration: none;;
 }
 .barLogo{
+    margin-left: 10px;
     margin-right:15px;
     max-width: 40px;
     max-height: auto;

@@ -12,15 +12,22 @@ export default function SearchBar({ onSearch }) {
    }
 
    const handleSearch = (event) => {
-      dispatch(getDriverByName(name));
-      console.log('click') 
+      if(name.length === 0 || !name){
+         event.preventDefault();
+        alert('please enter a name')
+      }else{
+         dispatch(getDriverByName(name));
+      }
+   
    }
-  
   
    return (
       <div>
+
       <input className={styles.input} type='search' onChange={handleChange} />
+      
      <button className={styles.button} value="A" onClick={handleSearch} >BUSCAR</button>
-  </div>
+     
+     </div>
    );
 }

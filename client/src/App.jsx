@@ -11,8 +11,7 @@ function App() {
   const selectedDrivers = useSelector((state) => state.myDriver);
   const {pathname} = useLocation()
   return (
-    <>
-         
+    <>         
          {pathname !== '/' && <Nav/> }
          <Routes>
             <Route path='/' element={<Landing />}/>

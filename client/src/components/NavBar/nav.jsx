@@ -8,7 +8,7 @@ export default function Nav() {
          <div className={styles.linkBar}>
             <img className={styles.barLogo} src="https://miro.medium.com/v2/resize:fit:1358/1*GuII-UeSxb8nKklfdTaQDA.png" />
          <Link className={styles.linkNav} to="/home" >HOME</Link>
-         <Link className={styles.linkNav} to="/form">CREATE NEW DRIVER</Link>
+         <Link className={styles.linkNav} to="/form">NEW DRIVER</Link>
          </div>
       </div>
    );

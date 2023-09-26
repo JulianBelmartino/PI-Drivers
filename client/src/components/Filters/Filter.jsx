@@ -1,7 +1,7 @@
 import {orderCards, orderCardsAlpha, orderCardsDob, filterCardsSource, filterCardsTeams, getTeams } from '../../redux/action';
 import { useDispatch,useSelector } from 'react-redux';
 import { useEffect,useState } from 'react';
-
+import styles from './filter.module.css'
 
 export default function filterCards(){
     const dispatch = useDispatch()
@@ -41,12 +41,12 @@ export default function filterCards(){
 
         
         <div>
-           <select onChange={handleFilterSource} >
+           <select className={styles.filter} onChange={handleFilterSource} >
               <option value="All">Por origen</option>
               <option value="bdd">Base de datos</option>
               <option value="api">API</option>
           </select>
-          <select onChange={handleFilterTeams}>
+          <select className={styles.filter} onChange={handleFilterTeams}>
            <option>Escuderias</option>
             {teams.map((team) => (
             <option key={team.id} value={team.name}>
@@ -57,17 +57,17 @@ export default function filterCards(){
               
           </select>
           
-        <select onChange={handleOrder} >
+        <select className={styles.filter} onChange={handleOrder} >
               <option value="Id">Por ID</option>
               <option value="A">Ascendente</option>
               <option value="D">Descendente</option>
           </select>
-          <select onChange={handleOrderAlpha} >
+          <select className={styles.filter} onChange={handleOrderAlpha} >
                <option value="orden">Alfabetico</option>
                <option value="Alpha">A-Z</option>
                <option value="Reverse">Z-A</option>
           </select>
-          <select onChange={handleOrderDob} >
+          <select className={styles.filter} onChange={handleOrderDob} >
               <option value="Fecha">Fecha de Nacimiento</option>
               <option value="Pasado a Presente">Pasado a presente</option>
               <option value="Presente a Pasado">Presente a pasado</option>

@@ -1,36 +1,40 @@
-#root {
-    max-width: 1280px;
-    margin: 0 auto;
-  }
-
   .container{
-    width:1200px;
-    height: 95vh;
-    background-color: rgb(58, 58, 66);
+    height: fit-content;
     display: flex;
     flex-direction: column;
+    padding-left: 10px;
+    padding-right: 10px;
   
 }
 .cards {
-  margin: 0; /* Remove margin */
-  padding: 0; /* Remove padding */
+  min-height: 700px;
+  min-width: 1220px;
+  padding-left: 50px;
+  padding-right: 50px; /* Remove padding */
   
-  background-color: rgb(27, 26, 26);
+  margin-top:70px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   flex-wrap: wrap;
 }
 .filters{
-    margin-top:35px;
+    margin-top:11px;
     display: flex;
     flex-direction: row;
+    position:absolute;
+    top:10px;
+    right:15px;
+
 }
 .pagination{
+  height:15px;
   color:white;
-  position: fixed;
-  bottom:10px;
-  left: 40%;
   right: auto;
-  background-color:red;
+  background-color:rgb(58, 58, 66);
+}
+.navButton{
+  color: rgb(255, 255, 255);
+  background-color: rgb(117, 5, 5);
+  max-height: 15px;
 }

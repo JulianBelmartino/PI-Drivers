@@ -16,12 +16,15 @@ export default function Cards(props) {
   const isLoading = useSelector((state) => state.isLoading);
 
   const itemsPerPage = 9; // Number of items to display per page
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(
+    parseInt(localStorage.getItem('currentPage')) || 1
+  );
+
 
   useEffect(() => {
     dispatch(getDrivers());
-    setCurrentPage(1);
-  }, [dispatch, orderedDrivers, myDriver]);
+    localStorage.setItem('currentPage', currentPage);
+  }, [dispatch, orderedDrivers, myDriver,currentPage]);
 
   // Determine the currentDrivers based on conditions
   let currentDrivers = [];
@@ -63,7 +66,7 @@ export default function Cards(props) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.filters}><SearchBar/> <Filter/></div>
+      <div className={styles.filters}><Filter/><SearchBar/></div>
       <div className={styles.cards}>
         {driversToDisplay.map((drivers) => (
           <Card

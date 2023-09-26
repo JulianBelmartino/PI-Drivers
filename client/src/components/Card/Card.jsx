@@ -4,23 +4,18 @@ import { Link } from 'react-router-dom';
 
 export default function Card({ name, teams, imagen, id, apellido }) {
   const teamArray = filteredTeams();
-  const [showTeams, setShowTeams] = useState(false);
 
-  function filteredTeams() {
+ function filteredTeams() {
     if (teams) {
       const teamsArray = teams.split(',').map((team) => team.trim());
       return teamsArray;
     }
-    return [];
-  }
+}
 
-  const toggleTeams = () => {
-    setShowTeams(!showTeams);
-  };
-  
+
   return (
      <div className={styles.container}>
-       <button onClick={toggleTeams}>Teams</button>
+       <div className={styles.driverInfo}>
       <img
         className={styles.imagebox}
         src={
@@ -32,17 +27,22 @@ export default function Card({ name, teams, imagen, id, apellido }) {
       />
 
       <Link className={styles.titulo} to={`/detail/${id}`}>
-        <h3 className={styles.titulo}>
-          {name} {apellido}
-        </h3>
+        <h5 className={styles.titulo}>
+          {name}
+        </h5>
+        <h5 className={styles.titulo}>
+          {apellido}
+        </h5>
       </Link>
-
-      {showTeams &&
-        teamArray.map((team, index) => (
-          <p key={index} className={styles.p}>
-            {team}
+      </div>
+      <div className={styles.teamInfo}>
+         <h4>Teams:</h4>
+      {teamArray.map((team, index) => (
+          <p key={index}>
+             {team}
           </p>
         ))}
+    </div>
     </div>
   );
 }
