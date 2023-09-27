@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 
 export default function Form() {
   const dispatch = useDispatch();
-  const [shouldRefreshPage, setShouldRefreshPage] = useState(false);
+  
 
   const regex = /^[a-zA-Z]+$/;
   const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
@@ -30,7 +30,7 @@ export default function Form() {
       if (!regex.test(inputValue)) {
         setErrorMessages((prevErrors) => ({
           ...prevErrors,
-          [inputName]: 'Debe contener solo letras.',
+          [inputName]: 'It can only contain letters.',
         }));
       } else {
         setErrorMessages((prevErrors) => ({ ...prevErrors, [inputName]: '' }));
@@ -39,20 +39,51 @@ export default function Form() {
       if (!dateRegex.test(inputValue)) {
         setErrorMessages((prevErrors) => ({
           ...prevErrors,
-          [inputName]: 'Formato de fecha no válido (AAAA-MM-DD).',
+          [inputName]: 'Unvalid date format (Year-Month-day).',
         }));
       } else {
-        setErrorMessages((prevErrors) => ({ ...prevErrors, [inputName]: '' }));
+        // Check if it's a valid date
+        const dateParts = inputValue.split('-');
+        const year = parseInt(dateParts[0]);
+        const month = parseInt(dateParts[1]) - 1; // Months are 0-based (0 = January)
+        const day = parseInt(dateParts[2]);
+        const dateObject = new Date(year, month, day);
+  
+        if (
+          isNaN(dateObject.getDate()) ||
+          dateObject.getMonth() !== month ||
+          dateObject.getFullYear() !== year ||
+          dateObject.getDate() !== day
+        ) {
+          setErrorMessages((prevErrors) => ({
+            ...prevErrors,
+            [inputName]: 'Unvalid date. Date must be real date.',
+          }));
+        } else {
+          setErrorMessages((prevErrors) => ({ ...prevErrors, [inputName]: '' }));
+        }
       }
     } else if (inputName === 'imagen') {
       if (!regexURL.test(inputValue)) {
         setErrorMessages((prevErrors) => ({
           ...prevErrors,
-          [inputName]: 'Debe ser una URL válida.',
+          [inputName]: 'Unvalid input, must be URL.',
         }));
       } else {
+        const img = new Image();
+      img.onload = () => {
+        // Image loaded successfully, you can clear the error message
         setErrorMessages((prevErrors) => ({ ...prevErrors, [inputName]: '' }));
-      }
+      };
+      img.onerror = () => {
+        // Image could not be loaded, show an error
+        setErrorMessages((prevErrors) => ({
+          ...prevErrors,
+          [inputName]: 'The URL doesnt contain and image',
+        }));
+      };
+      img.src = inputValue; // Set the image source to the URL
+    }
     }
   };
 
@@ -80,10 +111,6 @@ export default function Form() {
     
     validate(event);
   };
-  function refreshPage() {
-    window.location.reload();
-  }
-
   
   const submitHandler = (event) => {
     if (
@@ -95,53 +122,56 @@ export default function Form() {
       driverData.imagen.trim() === '' ||
       driverData.Teams.length === 0
     ) {
-      
+      event.preventDefault();
       toggleModalError();
     } else {
-      
-      dispatch(createDriver(driverData));
-      setDriverData({
-        nombre: '',
-        apellido: '',
-        nacionalidad: '',
-        fechaNac: '',
-        descripcion: '',
-        imagen: '',
-        Teams: [],
-      });
-      toggleRefreshPage();
+      event.preventDefault();
       toggleModal();
+     
     }
   };
 
+  const finalSubmit = () =>{ 
+    dispatch(createDriver(driverData));
+    setDriverData({
+      nombre: '',
+      apellido: '',
+      nacionalidad: '',
+      fechaNac: '',
+      descripcion: '',
+      imagen: '',
+      Teams: [],
+    });
+    window.location.reload();
+  }
   
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
  
   const toggleModal = () => {
-    setShowModal(!showModal);
-    if (shouldRefreshPage) {
-      refreshPage();
-    }
-  };
-  const toggleRefreshPage = () => {
-    setShouldRefreshPage(!shouldRefreshPage);
+    setShowModal(!showModal)
+    
   };
 
   const toggleModalError = () => {
     setShowModalError(!showModalError);
   };
-  function refreshPage() {
-    window.location.reload();
-  }
+  const closeModal = () => {
+    setShowModalError(!showModalError);
+  };
+
   return (
     <div className={styles.container}>
        {/* Modal */}
        {showModal && (
+            <div className={styles.overlay}></div>
+         )}
+       {showModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
+            <button className={styles.modalButton}  onClick={finalSubmit}>X</button>
             <h2>Driver Created Successfully</h2>
-            <button onClick={toggleModal}>Close</button>
+            <img className={styles.image} src='/f1white.png' />
           </div>
         </div>
       )}
@@ -149,8 +179,9 @@ export default function Form() {
          {showModalError && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
+            <button className={styles.modalButton} onClick={closeModal}>X</button>
             <h2>All Fields Are Required</h2>
-            <button onClick={toggleModalError}>Close</button>
+            <img className={styles.image}  src='/f1white.png' />
           </div>
         </div>
       )}
@@ -168,7 +199,7 @@ export default function Form() {
               name="nombre"
               onChange={handleChange}
               value={driverData.nombre}
-              required
+             
             />
             <p className={styles.error}>{errorMessages.nombre}</p>
           </div>
@@ -183,7 +214,7 @@ export default function Form() {
               name="apellido"
               onChange={handleChange}
               value={driverData.apellido}
-              required
+             
             />
             <p className={styles.error}>{errorMessages.apellido}</p>
           </div>
@@ -194,7 +225,7 @@ export default function Form() {
           <div className={styles.bigRow}>
           <div className={styles.row}>
             <label className={styles.label} htmlFor="nacionalidad">
-              Nacionality:
+              Nationality:
             </label>
             <input
               className={styles.inputs}
@@ -202,7 +233,7 @@ export default function Form() {
               name="nacionalidad"
               onChange={handleChange}
               value={driverData.nacionalidad}
-              required
+              
             />
             <p className={styles.error}>{errorMessages.nacionalidad}</p>
           </div>
@@ -213,11 +244,11 @@ export default function Form() {
             </label>
             <input
               className={styles.inputs}
-              type="url"
+              type="text"
               name="imagen"
               onChange={handleChange}
               value={driverData.imagen.url}
-              required
+              
             />
             <p className={styles.error}>{errorMessages.imagen}</p>
           </div>
@@ -226,15 +257,15 @@ export default function Form() {
           <div className={styles.bigRow}>
           <div className={styles.row}>
             <label className={styles.label} htmlFor="fechaNac">
-              Date of Birth:
+              Birthdate:
             </label>
             <input
               className={styles.inputs}
-              type="date"
+              type="text"
               name="fechaNac"
               onChange={handleChange}
               value={driverData.fechaNac}
-              required
+              
             />
             <p className={styles.error}>{errorMessages.fechaNac}</p>
           </div>
@@ -249,7 +280,7 @@ export default function Form() {
               name="descripcion"
               onChange={handleChange}
               value={driverData.descripcion}
-              required
+             
             />
             <p className={styles.error}>{errorMessages.descripcion}</p>
           </div>
@@ -266,7 +297,7 @@ export default function Form() {
               name="Teams"
               onChange={handleChange}
               value={driverData.Teams.map((team) => team.nombre).join(', ')}
-              required
+              
             />
             <p className={styles.error}>{errorMessages.Teams}</p>
           </div>

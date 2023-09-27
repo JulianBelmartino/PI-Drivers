@@ -44,12 +44,12 @@ export default function filterCards(){
         
         <div>
            <select className={styles.filter} onChange={handleFilterSource} >
-              <option value="All">Por origen</option>
-              <option value="bdd">Base de datos</option>
+              <option value="All">By Source</option>
+              <option value="bdd">Database</option>
               <option value="api">API</option>
           </select>
           <select className={styles.filter} onChange={handleFilterTeams}>
-           <option value="All">Escuderias</option>
+           <option value="All">Teams</option>
             {teams.map((team) => (
             <option key={team.id} value={team.name}>
              {team.nombre}
@@ -60,19 +60,19 @@ export default function filterCards(){
           </select>
           
         <select className={styles.filter} onChange={handleOrder} >
-              <option value="Id">Por ID</option>
-              <option value="A">Ascendente</option>
-              <option value="D">Descendente</option>
+              <option value="Id">By ID</option>
+              <option value="A">Ascendent</option>
+              <option value="D">Descendent</option>
           </select>
           <select className={styles.filter} onChange={handleOrderAlpha} >
-               <option value="orden">Alfabetico</option>
+               <option value="orden">Alphabetical</option>
                <option value="Alpha">A-Z</option>
                <option value="Reverse">Z-A</option>
           </select>
           <select className={styles.filter} onChange={handleOrderDob} >
-              <option value="Fecha">Fecha de Nacimiento</option>
-              <option value="Pasado a Presente">Pasado a presente</option>
-              <option value="Presente a Pasado">Presente a pasado</option>
+              <option value="Fecha">By Birthdate</option>
+              <option value="Pasado a Presente">Past to Present</option>
+              <option value="Presente a Pasado">Present to Past</option>
           </select>
   
           </div>

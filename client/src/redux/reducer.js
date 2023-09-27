@@ -143,6 +143,7 @@ const rootReducer = (state = initialState,action) => {
               if(driversBdd.length === 0){
                 return { ...state, orderedDrivers: driversBdd, discartedDrivers: driversApi, filterFlag: true, matchFlag : true   };
               }
+              
                return { ...state, orderedDrivers: driversBdd, discartedDrivers: driversApi, filterFlag: true };
          
             } else if (source === "api") {

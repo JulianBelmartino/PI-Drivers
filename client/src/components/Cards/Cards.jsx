@@ -6,6 +6,7 @@ import { getDrivers } from '../../redux/action';
 import { toggleFlag } from '../../redux/action';
 import SearchBar from '../SearchBar/SearchBar';
 import Filter from '../Filters/Filter';
+import Footer from '../Footer/Footer';
 
 export default function Cards(props) {
   const allDrivers = useSelector((state) => state.allDrivers);
@@ -29,7 +30,6 @@ export default function Cards(props) {
     localStorage.setItem('currentPage', currentPage);
   }, [dispatch, orderedDrivers, myDriver,currentPage]);
 
-  
   let currentDrivers = [];
 
   if (isLoading) {
@@ -49,11 +49,14 @@ export default function Cards(props) {
   } else if (orderedDrivers.length > 0) {
     if(matchFlag === true){
       currentDrivers = []
+     
     }else{
+      console.log(orderedDrivers)
       currentDrivers = orderedDrivers;
     }
   } else {
     if(matchFlag === true){
+      
       currentDrivers = []
     }else{
       currentDrivers = allDrivers;
@@ -102,6 +105,13 @@ export default function Cards(props) {
         ))}
       </div>
       <div className={styles.pagination}>
+      <button
+          className={styles.navButton}
+          disabled={currentPage === 1}
+          onClick={() => handlePageChange(currentPage - (currentPage-1))}
+        >
+          FIRST
+        </button>
         <button
           className={styles.navButton}
           disabled={currentPage === 1}
@@ -109,7 +119,7 @@ export default function Cards(props) {
         >
           PREVIOUS
         </button>
-        <span>{`PAGE ${currentPage} OF ${totalPages}`}</span>
+        <span className={styles.navText}>{`PAGE ${currentPage} OF ${totalPages}`}</span>
         <button
           className={styles.navButton}
           disabled={currentPage === totalPages}
@@ -117,7 +127,15 @@ export default function Cards(props) {
         >
           NEXT
         </button>
+        <button
+          className={styles.navButton}
+          disabled={currentPage === totalPages}
+          onClick={() => handlePageChange(currentPage + (totalPages - currentPage))}
+        >
+          LAST
+        </button>
       </div>
+      < Footer />
     </div>
   );
 }

@@ -54,7 +54,6 @@ export function createDriver(driverData) {
        
      } catch (error) {
        console.error('Error al crear el conductor:', error);
-       // You can dispatch an error action or handle errors in a way that suits your application.
      }
    };
  }

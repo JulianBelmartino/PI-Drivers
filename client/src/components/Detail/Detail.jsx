@@ -17,10 +17,8 @@ export default function Detail(){
     dispatch(getDriverDetail(id))
   },[dispatch])
 
-   
-  console.log(driverDetail)
    if (!driverDetail || driverDetail.length === 0) {
-    return <p>Loading...</p>; 
+    return <p></p>; 
   }
   return(
       <div className={styles.container}>
@@ -33,13 +31,13 @@ export default function Detail(){
       <h2>{driverDetail.nombre} {driverDetail.apellido}</h2>
       <div className={styles.row}>
       <h3>Nationality: {driverDetail.nacionalidad}</h3>
-      <h3>Date of Birth: {driverDetail.fechaNac}</h3>
+      <h3>Birthdate: {driverDetail.fechaNac}</h3>
       </div>
       <h3 >Teams: {driverDetail.teams}</h3>
       </div>
 
       <div className={styles.rightSide}>
-      <h4>Descripcion:</h4>
+      <h4>Description:</h4>
       <p className={styles.descripcion}>{driverDetail.descripcion}</p>
       </div>
       </div>
