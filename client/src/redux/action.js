@@ -8,7 +8,7 @@ export const GET_TEAMS = 'GET_TEAMS'
 export const DRIVER_DETAIL = 'DRIVER_DETAIL'
 export const CREATE_DRIVER = 'CREATE_DRIVER_SUCCESS'
 export const DRIVERS_NAME = 'DRIVERS_NAME'
-
+export const TOGGLE_FLAG = 'TOGGLE_FLAG'
 import axios from "axios";
 
 // ACTION | addFav
@@ -62,8 +62,8 @@ export function createDriver(driverData) {
 export const filterCardsSource = (filter, flag) => {
     return{type:FILTER_SOURCE,payload:{filter,flag}}
 }
-export const filterCardsTeams = (filter) => {
-   return{type:FILTER_TEAM,payload:filter}
+export const filterCardsTeams = (filter,teamsFlag) => {
+   return{type:FILTER_TEAM,payload:{filter,teamsFlag}}
 }
 export function getTeams(){
    return async function(dispatch){
@@ -83,3 +83,6 @@ export const orderCardsAlpha = (orden) => {
 export const orderCardsDob = (orden) => {
    return{type:ORDER_DOB,payload:orden}
 }
+export const toggleFlag = () => ({
+   type: TOGGLE_FLAG,
+ });

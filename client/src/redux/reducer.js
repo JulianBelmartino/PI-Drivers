@@ -1,14 +1,14 @@
-import { GET_DRIVERS, GET_TEAMS, CREATE_DRIVER, DRIVER_DETAIL, DRIVERS_NAME, ORDER, ORDER_ALPHA, ORDER_DOB, FILTER_SOURCE, FILTER_TEAM } from "./action";
+import { GET_DRIVERS, GET_TEAMS, CREATE_DRIVER, DRIVER_DETAIL, DRIVERS_NAME, ORDER, ORDER_ALPHA, ORDER_DOB, FILTER_SOURCE,TOGGLE_FLAG, FILTER_TEAM } from "./action";
 
 const initialState ={
     myDriver: [],
     allDrivers: [],
     orderedDrivers: [],
-    idDrivers:[],
     allTeams: [],
     driverDetail: [],
     discartedDrivers: [],
-    filterFlag: false
+    filterFlag: false,
+    matchFlag: false
 };
 const rootReducer = (state = initialState,action) => {
     switch(action.type){
@@ -26,10 +26,10 @@ const rootReducer = (state = initialState,action) => {
          return { ...state, allDrivers: action.payload }
                 
         case DRIVERS_NAME:
-            return { ...state, myDriver: action.payload, filterFlag: false}
+            return { ...state, myDriver: action.payload, filterFlag: false, matchFlag : true  }
     
         case ORDER:
-          console.log(state.myDriver)
+          
                 let idDrivers = [];
               if (state.myDriver.length !== 0) {
                 if(state.filterFlag === false) {
@@ -124,6 +124,7 @@ const rootReducer = (state = initialState,action) => {
             let sourceDrivers = [];
             let source = action.payload.filter
             let flag = action.payload.flag
+            
             if (state.myDriver.length !== 0) {
               sourceDrivers = [...state.myDriver]
             } else if (state.orderedDrivers.length !== 0) {
@@ -135,23 +136,32 @@ const rootReducer = (state = initialState,action) => {
             } else {
               sourceDrivers = [...state.allDrivers];
             }
-
+            
             if (source === "bdd") {
               const driversBdd = sourceDrivers.filter((driver) => driver.created === true);
               const driversApi = sourceDrivers.filter((driver) => driver.created === false);
-               return { ...state, orderedDrivers: driversBdd, discartedDrivers: driversApi, filterFlag: true  };
+              if(driversBdd.length === 0){
+                return { ...state, orderedDrivers: driversBdd, discartedDrivers: driversApi, filterFlag: true, matchFlag : true   };
+              }
+               return { ...state, orderedDrivers: driversBdd, discartedDrivers: driversApi, filterFlag: true };
+         
             } else if (source === "api") {
               const driversApi = sourceDrivers.filter((driver) => driver.created === false);
               const driversBdd = sourceDrivers.filter((driver) => driver.created === true);
-               return { ...state, orderedDrivers: driversApi, discartedDrivers: driversBdd, filterFlag: true  };
+              if(driversApi.length === 0){
+                return { ...state, orderedDrivers: driversBdd, discartedDrivers: driversApi, filterFlag: true, matchFlag : true   };
+              }
+               return { ...state, orderedDrivers: driversApi, discartedDrivers: driversBdd, filterFlag: true };
             } else if (source === "All") {
-              return { ...state, orderedDrivers: [...state.orderedDrivers, ...state.discartedDrivers], filterFlag: true   };
+              return { ...state, orderedDrivers: [...state.orderedDrivers, ...state.discartedDrivers], filterFlag: true};
             }
           
             return { ...state, orderedDrivers: sourceDrivers, filterFlag: true };
           
           case FILTER_TEAM:
             let teamDrivers = [];
+            let teamsFlag = action.payload.teamsFlag
+            let teamFilter = action.payload.filter
             if (state.myDriver.length !== 0) {
               if(state.filterFlag === false) {
                 teamDrivers = [...state.myDriver]
@@ -159,20 +169,41 @@ const rootReducer = (state = initialState,action) => {
                 teamDrivers = [...state.orderedDrivers];
                 }
             } else if (state.orderedDrivers.length !== 0) {
+              if(teamsFlag === true){
+              teamDrivers = [...state.orderedDrivers, ...state.mergedDiscarted];
+             }else if(teamsFlag === false){
               teamDrivers = [...state.orderedDrivers];
+             }
             } else {
               teamDrivers = [...state.allDrivers];
             }
-            
+           
             const filteredDbTeamDrivers = teamDrivers.filter((driver) => driver.Teams);
-            const driversDbTeam = filteredDbTeamDrivers.filter((driver) => driver.Teams.includes(action.payload));
-
+            const driversDbTeam = filteredDbTeamDrivers.filter((driver) => driver.Teams.includes(teamFilter));
+         
+            const discartedDriversDbTeam = filteredDbTeamDrivers.filter((driver) => !driver.Teams.includes(teamFilter));
+            
+            
             const filteredTeamDrivers = teamDrivers.filter((driver) => driver.teams);
-            const driversTeam = filteredTeamDrivers.filter((driver) => driver.teams.includes(action.payload));
+            const driversTeam = filteredTeamDrivers.filter((driver) => driver.teams.includes(teamFilter));
+          
+            const discartedDriversApiTeam = filteredTeamDrivers.filter((driver) => !driver.teams.includes(teamFilter));
+
+            let mergedTeams = [...driversTeam, ...driversDbTeam];
+           
+            let mergedDiscarted =[...discartedDriversApiTeam, ...discartedDriversDbTeam]
+            if(teamFilter === 'All'){
+              return {...state, orderedDrivers: teamDrivers}
+            }
+            if(mergedTeams.length === 0){
+              console.log('aca')
+              return { ...state, orderedDrivers: mergedTeams, mergedDiscarted : mergedDiscarted, filterFlag: true, matchFlag : true  };
+            }
+            return { ...state, orderedDrivers: mergedTeams, filterFlag: true, mergedDiscarted : mergedDiscarted };
             
-            let mergedfTeams = [...driversTeam, ...driversDbTeam];
-            return { ...state, orderedDrivers: mergedfTeams, filterFlag: true };
-            
+            case TOGGLE_FLAG:
+              return {...state,matchFlag : false}
+
             default:
               return {...state}
              

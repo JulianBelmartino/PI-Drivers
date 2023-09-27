@@ -9,6 +9,7 @@ export default function filterCards(){
     const teams = useSelector((state) => state.allTeams)
     
     const [flag, setFlag] = useState(false)
+    const [teamsFlag, setTeamsFlag] = useState(false)
     
     const handleFilterSource = (event) => {
         const filter = event.target.value
@@ -17,7 +18,8 @@ export default function filterCards(){
         }
     const handleFilterTeams = (event) => {
         const filter = event.target.value
-        dispatch(filterCardsTeams(filter))
+        dispatch(filterCardsTeams(filter,teamsFlag))
+        setTeamsFlag(true)
         }
 
         useEffect(() => {
@@ -47,7 +49,7 @@ export default function filterCards(){
               <option value="api">API</option>
           </select>
           <select className={styles.filter} onChange={handleFilterTeams}>
-           <option>Escuderias</option>
+           <option value="All">Escuderias</option>
             {teams.map((team) => (
             <option key={team.id} value={team.name}>
              {team.nombre}

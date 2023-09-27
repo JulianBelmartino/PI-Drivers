@@ -149,7 +149,7 @@ export default function Form() {
          {showModalError && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <h2>All fields are required</h2>
+            <h2>All Fields Are Required</h2>
             <button onClick={toggleModalError}>Close</button>
           </div>
         </div>
@@ -160,7 +160,7 @@ export default function Form() {
           <div className={styles.bigRow}>
           <div className={styles.row}>
             <label className={styles.label} htmlFor="nombre">
-              Nombre:
+              Forename:
             </label>
             <input
               className={styles.inputs}
@@ -175,7 +175,7 @@ export default function Form() {
 
           <div className={styles.row}>
             <label className={styles.label} htmlFor="apellido">
-              Apellido:
+              Surname:
             </label>
             <input
               className={styles.inputs}
@@ -194,7 +194,7 @@ export default function Form() {
           <div className={styles.bigRow}>
           <div className={styles.row}>
             <label className={styles.label} htmlFor="nacionalidad">
-              Nacionalidad:
+              Nacionality:
             </label>
             <input
               className={styles.inputs}
@@ -209,7 +209,7 @@ export default function Form() {
           
           <div className={styles.row}>
             <label className={styles.label} htmlFor="imagen">
-              Imagen:
+              Image:
             </label>
             <input
               className={styles.inputs}
@@ -226,7 +226,7 @@ export default function Form() {
           <div className={styles.bigRow}>
           <div className={styles.row}>
             <label className={styles.label} htmlFor="fechaNac">
-              Fecha de Nacimiento:
+              Date of Birth:
             </label>
             <input
               className={styles.inputs}
@@ -258,7 +258,7 @@ export default function Form() {
           <div className={styles.bigRow}>
           <div className={styles.row}>
             <label className={styles.label} htmlFor="Teams">
-              Escuderias:
+              Teams:
             </label>
             <input
               className={styles.inputs}

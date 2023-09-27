@@ -10,8 +10,7 @@
   min-height: 700px;
   min-width: 1220px;
   padding-left: 50px;
-  padding-right: 50px; /* Remove padding */
-  
+  padding-right: 50px; 
   margin-top:70px;
   display: flex;
   flex-direction: row;
@@ -34,7 +33,18 @@
   background-color:rgb(58, 58, 66);
 }
 .navButton{
-  color: rgb(255, 255, 255);
-  background-color: rgb(117, 5, 5);
-  max-height: 15px;
+  background-color: darkred;
+  color: white;
+  padding: 0px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  max-height: 15px;;
+}
+.navButton:active{
+  background-color: white;
+  color:red;
+}
+h1{
+  color: white;
+  font-size: xx-large;
 }

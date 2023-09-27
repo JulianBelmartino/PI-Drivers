@@ -24,9 +24,6 @@
   background: linear-gradient(to bottom right, #b90808 10%, #660606 100%);
   transform: translateY(-10px);
   transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
--webkit-transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
--moz-transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
--o-transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
    
   .titulo {
@@ -50,7 +47,6 @@
   margin: 0;
   font-size: smaller;
   text-align: left;
-  
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
 }
   .driverInfo{
