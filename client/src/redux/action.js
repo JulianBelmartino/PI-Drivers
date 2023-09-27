@@ -9,6 +9,7 @@ export const DRIVER_DETAIL = 'DRIVER_DETAIL'
 export const CREATE_DRIVER = 'CREATE_DRIVER_SUCCESS'
 export const DRIVERS_NAME = 'DRIVERS_NAME'
 export const TOGGLE_FLAG = 'TOGGLE_FLAG'
+export const RESET = 'RESET'
 import axios from "axios";
 
 // ACTION | addFav
@@ -85,3 +86,7 @@ export const orderCardsDob = (orden) => {
 export const toggleFlag = () => ({
    type: TOGGLE_FLAG,
  });
+ export const resetFilters = () => ({
+   type: RESET,
+ });
+ 

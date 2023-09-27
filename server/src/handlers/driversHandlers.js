@@ -9,7 +9,7 @@ const getDriversHandler = async ( req , res) => {
         res.status(200).json(resultado);
       } catch (error) {
        
-        res.status(500).json({ error: "Error en el servidor" });
+        res.status(500).json({ error: error.message });
       }
     }
 

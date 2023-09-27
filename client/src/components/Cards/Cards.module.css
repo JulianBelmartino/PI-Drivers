@@ -41,6 +41,9 @@
   text-decoration: none;
   max-height: 15px;;
 }
+.navButton:disabled{
+  background-color:grey;
+}
 .navButton:active{
   background-color: white;
   color:red;

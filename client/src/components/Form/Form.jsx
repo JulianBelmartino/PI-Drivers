@@ -79,7 +79,7 @@ export default function Form() {
         // Image could not be loaded, show an error
         setErrorMessages((prevErrors) => ({
           ...prevErrors,
-          [inputName]: 'The URL doesnt contain and image',
+          [inputName]: 'The URL doesnt contain an image',
         }));
       };
       img.src = inputValue; // Set the image source to the URL

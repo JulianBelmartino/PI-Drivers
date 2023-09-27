@@ -80,20 +80,25 @@ const getDriverById = async (id, source) => {
       
       const formattedTeams = driver.Teams.map((team) => team.nombre).join(', ');
 
+      const description = driver.description || "No description available";
+      const image = driver.image || 'https://cdn.pixabay.com/photo/2013/07/12/15/36/motorsports-150157_960_720.png';
+
       return {
         ...driver.toJSON(),
         teams: formattedTeams,
+        description: description,
       };
     } else {
-      
+      const description = driver.description || "No description available";
+      const image = driver.image || 'https://cdn.pixabay.com/photo/2013/07/12/15/36/motorsports-150157_960_720.png';
       return {
         id: driver.id,
         nombre: driver.name.forename,
         apellido: driver.name.surname,
-        descripcion: driver.description,
+        descripcion: description,
         nacionalidad: driver.nationality,
         fechaNac: driver.dob,
-        imagen: driver.image,
+        imagen: image,
         teams: driver.teams,
         created: false,
       };
@@ -155,7 +160,8 @@ const getDriverById = async (id, source) => {
             }
           });
           const databaseFiltrada = driversDatabase.filter((driver) =>
-      driver.apellido.toLowerCase().includes(nombre.toLowerCase())
+      driver.apellido.toLowerCase().includes(nombre.toLowerCase()) ||
+      driver.nombre.toLowerCase().includes(nombre.toLowerCase()) 
     );
 
     
@@ -169,7 +175,8 @@ const getDriverById = async (id, source) => {
     const driversApi = formatArray(driverApiOriginal);
     const apiFiltrada = driversApi.filter((driver) => {
       return driver.apellido !== undefined && (
-          driver.apellido.toLowerCase().includes(nombre.toLowerCase())
+          driver.apellido.toLowerCase().includes(nombre.toLowerCase()) ||
+          driver.nombre.toLowerCase().includes(nombre.toLowerCase()) 
         );
     })
 

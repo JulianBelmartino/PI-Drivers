@@ -7,6 +7,7 @@ import { toggleFlag } from '../../redux/action';
 import SearchBar from '../SearchBar/SearchBar';
 import Filter from '../Filters/Filter';
 import Footer from '../Footer/Footer';
+import {resetFilters} from '../../redux/action'
 
 export default function Cards(props) {
   const allDrivers = useSelector((state) => state.allDrivers);
@@ -51,7 +52,7 @@ export default function Cards(props) {
       currentDrivers = []
      
     }else{
-      console.log(orderedDrivers)
+      
       currentDrivers = orderedDrivers;
     }
   } else {
@@ -79,7 +80,7 @@ export default function Cards(props) {
   };
 
   const handleButtonClick = () => {
-    // Dispatch the action to toggle the flag
+    dispatch(resetFilters())
     dispatch(toggleFlag());
   };
 

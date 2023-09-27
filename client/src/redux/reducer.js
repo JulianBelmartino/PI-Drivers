@@ -1,4 +1,4 @@
-import { GET_DRIVERS, GET_TEAMS, CREATE_DRIVER, DRIVER_DETAIL, DRIVERS_NAME, ORDER, ORDER_ALPHA, ORDER_DOB, FILTER_SOURCE,TOGGLE_FLAG, FILTER_TEAM } from "./action";
+import { GET_DRIVERS, GET_TEAMS, CREATE_DRIVER, DRIVER_DETAIL, RESET, DRIVERS_NAME, ORDER, ORDER_ALPHA, ORDER_DOB, FILTER_SOURCE,TOGGLE_FLAG, FILTER_TEAM } from "./action";
 
 const initialState ={
     myDriver: [],
@@ -204,6 +204,9 @@ const rootReducer = (state = initialState,action) => {
             
             case TOGGLE_FLAG:
               return {...state,matchFlag : false}
+            
+              case RESET:
+                return {...state, myDriver:[...state.allDrivers], orderedDrivers: [...state.allDrivers]}
 
             default:
               return {...state}
