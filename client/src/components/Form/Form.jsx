@@ -102,7 +102,9 @@ export default function Form() {
     const value = event.target.value;
 
     if (property === 'Teams') {
+      console.log(value)
       const teamsArray = value.split(', ').map((team) => ({ nombre: team }));
+      console.log(teamsArray)
       setDriverData((prevData) => ({ ...prevData, [property]: teamsArray }));
     } else {
       setDriverData((prevData) => ({ ...prevData, [property]: value }));

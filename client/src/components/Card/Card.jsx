@@ -3,14 +3,9 @@ import styles from './Card.module.css';
 import { Link } from 'react-router-dom';
 
 export default function Card({ name, teams, imagen, id, apellido }) {
-  const teamArray = filteredTeams();
+  
+    
 
- function filteredTeams() {
-    if (teams) {
-      const teamsArray = teams.split(',').map((team) => team.trim());
-      return teamsArray;
-    }
-}
 
 
   return (
@@ -37,11 +32,11 @@ export default function Card({ name, teams, imagen, id, apellido }) {
       </div>
       <div className={styles.teamInfo}>
          <h4>Teams:</h4>
-      {teamArray.map((team, index) => (
-          <p key={index}>
-             {team}
+      
+          <p >
+             {teams}
           </p>
-        ))}
+       
     </div>
     </div>
   );
